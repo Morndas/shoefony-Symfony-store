@@ -9,8 +9,30 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+use App\Repository\Store\ProductRepository;
+
 class StoreController extends AbstractController
 {
+
+    /** @var ProductRepository */
+    private $productRepository;
+
+    public function __construct(ProductRepository $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
+    /**
+     * @Route("/products", name="store_list")
+     */
+    public function products(): Response
+    {
+        // A changer
+        return $this->render('main/homepage.html.twig', [
+            'products' => $this->productRepository->findAll(),
+        ]);
+    }
+
     /**
      * @Route("/product/{id}/details/{slug}", name="store_product", requirements={"id" = "\d+"})
      * @param Request $request
@@ -25,23 +47,6 @@ class StoreController extends AbstractController
             'slug' => $slug,
             'ip' => $request->getClientIp()
         ));
-
-        /*$product = $this->productRepository->find($id);
-        if (null === $product) {
-            throw new NotFoundHttpException();
-        }
-
-        if ($product->getSlug() !== $slug) {
-            return $this->redirectToRoute('store_product', [
-                'id' => $id,
-                'slug' => $product->getSlug(),
-            ], Response::HTTP_MOVED_PERMANENTLY);
-        }
-
-        return $this->render('store/product.html.twig', [
-            'product' => $product,
-            'brands' => $this->brandRepository->findBy([], ['name' => 'ASC']),
-        ]);*/
     }
 
 }

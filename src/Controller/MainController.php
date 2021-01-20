@@ -4,21 +4,35 @@
 namespace App\Controller;
 
 
+use App\Repository\Store\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Controller\Manager\ContactManager;
 use Symfony\Component\HttpFoundation\Request;
 
 class MainController extends AbstractController
 {
+
+    private ContactManager $contactManager;
+    // private $productRepository;
+
+    public function __construct(ContactManager $contactManager /*,ProductRepository $productRepository*/)
+    {
+        $this->contactManager = $contactManager;
+        // $this->productRepository = $productRepository;
+    }
+
     /**
      * @Route("/", name="main_homepage")
      */
     public function homepage() :Response {
-        return $this->render('main/homepage.html.twig');
+        return $this->render('main/homepage.html.twig'
+                // ,['products' => $this->productRepository->findAll(),]
+        );
     }
 
     /**
@@ -43,6 +57,8 @@ class MainController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'Merci, votre message a été pris en compte !');
+
+            $this->contactManager->save($contact);
 
             return $this->redirectToRoute('main_contact');
         }

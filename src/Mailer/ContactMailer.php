@@ -4,15 +4,21 @@
 namespace App\Mailer;
 
 use App\Entity\Contact;
-use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+// use Symfony\Component\Mime\Email;
 
 
 class ContactMailer
 {
+    private MailerInterface $mailer;
+
+    public function __construct(MailerInterface $mailer)
+    {
+        $this->mailer = $mailer;
+    }
 
     function send(Contact $contact):void {
-
 
         $email = (new TemplatedEmail())
             ->from('MorndasFifou@gmail.com')
@@ -23,7 +29,7 @@ class ContactMailer
                 'contact' => $contact
             ]);
 
-        $mailer->send($email);
+        $this->mailer->send($email);
 
     }
 }
