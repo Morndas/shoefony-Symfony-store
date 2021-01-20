@@ -27,9 +27,10 @@ class StoreController extends AbstractController
      */
     public function products(): Response
     {
-        // A changer
-        return $this->render('main/homepage.html.twig', [
-            'products' => $this->productRepository->findAll(),
+        $products = $this->productRepository->findAll();
+
+        return $this->render('store/productList.html.twig', [
+            'products' => $products,
         ]);
     }
 

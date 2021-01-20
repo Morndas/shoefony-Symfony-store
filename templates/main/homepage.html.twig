@@ -38,7 +38,7 @@
         {% for product in products %}
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="{{ asset('img/products/shoe-' ~ product.id ~ '.jpg') }}" alt="Nom du produit {{ product.name }}">
+                    <img src="{{ asset('img/products/shoe-' ~ product.id ~ '.jpg') }}" alt="{{ product.name }}">
                     <div class="caption">
                         <h3>{{ product.name }}</h3>
                         <p>{{product.description}}</p>

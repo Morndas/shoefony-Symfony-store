@@ -18,21 +18,21 @@ class MainController extends AbstractController
 {
 
     private ContactManager $contactManager;
-    // private $productRepository;
+    private ProductRepository $productRepository; // je ne peux pas afficher les produits sur la homepage autrement (?)
 
-    public function __construct(ContactManager $contactManager /*,ProductRepository $productRepository*/)
+    public function __construct(ContactManager $contactManager ,ProductRepository $productRepository)
     {
         $this->contactManager = $contactManager;
-        // $this->productRepository = $productRepository;
+        $this->productRepository = $productRepository;
     }
 
     /**
      * @Route("/", name="main_homepage")
      */
     public function homepage() :Response {
-        return $this->render('main/homepage.html.twig'
-                // ,['products' => $this->productRepository->findAll(),]
-        );
+        return $this->render('main/homepage.html.twig',[
+            'products' => $this->productRepository->findAll(),
+        ]);
     }
 
     /**
