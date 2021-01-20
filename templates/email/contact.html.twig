@@ -8,9 +8,9 @@
     <title>Email de contact</title>
 </head>
 <body>
-<h1>Un message de contact</h1>
+<h1>Message envoyé: </h1>
 <ul>
-    <li>Nom : {{ contact.fullName }}</li>
+    <li>Nom : {{ contact.firstName }} {{ contact.lastName }}</li>
     <li>Email : {{ contact.email }}</li>
     <li>message : {{ contact.message }}</li>
 </ul>

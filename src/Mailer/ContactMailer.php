@@ -21,8 +21,8 @@ class ContactMailer
     function send(Contact $contact):void {
 
         $email = (new TemplatedEmail())
-            ->from('MorndasFifou@gmail.com')
-            ->to('contact@shoefony.com')
+            ->from($contact->getEmail())
+            ->to('contact@shoefony.com') // remplacer par email de test
             ->subject('Un message de contact sur Shoefony')
             ->htmlTemplate('email/contact.html.twig')
             ->context([
