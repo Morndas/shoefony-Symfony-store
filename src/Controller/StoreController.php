@@ -41,13 +41,18 @@ class StoreController extends AbstractController
      * @param string $slug
      * @return Response
      */
-    public function product(Request $request, int $id, string $slug): Response
+    public function product(int $id, string $slug): Response
     {
-        return $this->render('store/product.html.twig', array(
-            'id' => $id,
-            'slug' => $slug,
-            'ip' => $request->getClientIp()
-        ));
+        $product= $this->productRepository->find($id);
+
+        if(!$product || $product->getSlug()  !== $slug){
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render('store/product.html.twig', [
+            'product'=> $product,
+
+        ]);
     }
 
 }

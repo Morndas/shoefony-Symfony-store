@@ -44,6 +44,16 @@ class Product
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description_longue;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -110,6 +120,30 @@ class Product
     public function setImage(Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescriptionLongue(): ?string
+    {
+        return $this->description_longue;
+    }
+
+    public function setDescriptionLongue(string $description_longue): self
+    {
+        $this->description_longue = $description_longue;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -16,33 +16,29 @@ class AppFixtures extends Fixture
     {
         $this->manager = $manager;
 
-        $this->loadImages();
         $this->loadProducts();
         // $this->loadBrands();
 
         $this->manager->flush();
     }
 
-    private function loadImages()
-    {
-        for($i = 1; $i <15; $i++) {
-            $image = (new Image())
-                ->setUrl('shoe-'.$i.'.jpg')
-                ->setAlt('Shoe'.$i);
-
-            $this->manager->persist($image);
-            $this->addReference('image'.$i, $image);
-        }
-    }
-
     private function loadProducts(): void
     {
-        for ($i = 0; $i < 14; $i++) {
+        for ($i = 1; $i <= 14; $i++) {
             $product = (new Product())
                 ->setName('product '.$i)
-                ->setDescription('Produit de description '.$i)
+                ->setSlug('product '.$i)
+                ->setDescription('Description du produit '.$i)
+                ->setDescriptionLongue('Description longue du produit '.$i)
                 ->setPrice(mt_rand(10, 100))
-                ->setImage($this->getReference('image'.$i));
+            ;
+
+            $image = (new Image())
+                ->setUrl(sprintf('img/products/shoe-%d.jpg', $i))
+                ->setAlt($product->getName())
+            ;
+
+            $product->setImage($image);
 
             $this->manager->persist($product);
         }
