@@ -143,11 +143,11 @@ class AppFixtures extends Fixture
 
     private function loadUsers(UserPasswordEncoderInterface $encoder) {
         $usernames = [ 'Seb', 'Michel', 'Bob', 'Chantal', 'Zöe', 'Loïc', 'Paul'];
-        $passwords = ['blbla45', 'zoulougaga-78','zbzbz85', 'ijsdhjikvbhkj757', 'husdghhds45'];
+        $passwords = ['blbla45', 'zoulougaga-78','zbzbz85', 'ijsdhjikvbhkj757', 'husdghhds45', 'fhfhsdfojh456', 'dsbjsbdhj4'];
 
         for ($i = 0; $i < 7; $i++) {
             $user = new User();
-            $password = $passwords[array_rand($passwords)];
+            $password = $passwords[$i];
             $encodedPassword = $encoder->encodePassword($user, $password);
 
             $user
