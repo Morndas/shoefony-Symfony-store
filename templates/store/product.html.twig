@@ -1,18 +1,12 @@
 {% extends 'layout.html.twig' %}
 
+{% block title %} {{ product.name|capitalize }} {{ parent() }}{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col-md-3">
-            <p class="lead">Nos marques</p>
-            <div class="list-group">
-                <a href="#" class="list-group-item active">Toutes les marques</a>
-                <a href="#" class="list-group-item">Adidas</a>
-                <a href="#" class="list-group-item">Asics</a>
-                <a href="#" class="list-group-item">Nike</a>
-                <a href="#" class="list-group-item">Puma</a>
-            </div>
+            {{ render(controller('App\\Controller\\StoreController::brandsMenu', {'currentBrandId': product.brand.id})) }}
         </div>
-
         <div class="col-md-9">
             <p class="lead">
                 Fiche descriptive " {{ product.name|capitalize }} "
@@ -22,6 +16,10 @@
                 <div class="thumbnail">
                     <img class="img-responsive" src="{{ asset(product.image.url) }}" alt="{{ product.image.alt }}">
                     <div class="caption-full">
+                        {% for color in product.colors %}
+                            <h4 class="pull-left"><span class="badge">{{ color.name }}</span></h4>
+                        {% endfor %}
+                        <br>
                         <h4 class="pull-right"><span class="badge">{{ product.price }} €</span></h4>
                         <h3>{{ product.name }}</h3>
                         <p>{{ product.description }}</p>
@@ -30,34 +28,20 @@
                 </div>
 
                 <div class="well">
-                    <p class="pull-right label label-success">Actuellement 3 avis</p>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="label label-info">Prénom Nom</span>
-                            <span class="label label-default pull-right">28/01/2015</span>
-                            <p>Un commentaire sur le produit, rédigé par un client, sera affiché à cet endroit.</p>
+                    <p class="pull-right label label-success">Actuellement {{ product.comments.count }} avis</p>
+
+                    {% for comment in product.comments | sort((a, b) => b.createdAt <=> a.createdAt) %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="label label-info">{{ comment.pseudo }}</span>
+                                <span class="label label-default">{{ comment.user.username }}</span>
+                                <span class="label label-default pull-right">{{ comment.createdAt|date('d-m-Y H:i:s') }}</span>
+                                <p>{{ comment.message }}</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <hr/>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="label label-info">Prénom Nom</span>
-                            <span class="label label-default pull-right">28/01/2015</span>
-                            <p>Un commentaire sur le produit, rédigé par un client, sera affiché à cet endroit.</p>
-                        </div>
-                    </div>
-
-                    <hr/>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="label label-info">Prénom Nom</span>
-                            <span class="label label-default pull-right">28/01/2015</span>
-                            <p>Un commentaire sur le produit, rédigé par un client, sera affiché à cet endroit.</p>
-                        </div>
-                    </div>
+                        <hr>
+                    {% endfor %}
 
                     <hr/>
 

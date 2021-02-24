@@ -1,5 +1,7 @@
 {% extends 'layout.html.twig' %}
 
+{% block title %} Accueil {{ parent() }}{% endblock %}
+
 {% block content %}
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -35,21 +37,7 @@
     </div>
 
     <div class="row text-center">
-        {% for product in products %}
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="{{ asset('img/products/shoe-' ~ product.id ~ '.jpg') }}" alt="{{ product.name }}">
-                    <div class="caption">
-                        <h3>{{ product.name }}</h3>
-                        <p>{{product.description}}</p>
-                        <p>
-                            <span class="badge">{{ product.price }} €</span>
-                            <a href="{{ path('store_product', {'id': product.id, 'slug': product.name}) }}" class="btn btn-default">Voir la fiche</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
+        {{ include('store/_productsDisplay.html.twig', {products: newProducts}) }}
     </div>
 
     <hr/>
@@ -61,22 +49,6 @@
     </div>
 
     <div class="row text-center">
-        {# a changer une fois les articles les + populaires trouvés #}
-        {% for i in 1..4 %}
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="{{ asset('img/products/shoe-' ~ i ~ '.jpg') }}" alt="Nom du produit {{ i }}">
-                    <div class="caption">
-                        <h3>Nom du produit {{ i }}</h3>
-                        <p>Une description courte du produit sera affichée à cet endroit.</p>
-                        <p>
-                            <span class="badge">120,00 €</span>
-                            <a href="{{ path('store_product', {'id': i, 'slug': 'nom-du-produit-' ~ i}) }}" class="btn btn-default">Voir la fiche</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-
+        {{ include('store/_productsDisplay.html.twig', {products: popProducts}) }}
     </div>
 {% endblock %}

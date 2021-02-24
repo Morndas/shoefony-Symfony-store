@@ -30,8 +30,13 @@ class MainController extends AbstractController
      * @Route("/", name="main_homepage")
      */
     public function homepage() :Response {
-        return $this->render('main/homepage.html.twig',[
-            'products' => $this->productRepository->findAll(),
+
+        $newProducts = $this->productRepository->findLastCreated();
+        $popProducts = $this->productRepository->findMostCommProducts();
+
+        return $this->render('main/homepage.html.twig', [
+            'newProducts' => $newProducts,
+            'popProducts' => $popProducts
         ]);
     }
 
